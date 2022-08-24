@@ -1,9 +1,9 @@
 <template>
   <section class="reviews">
     <div class="reviews__heading">
-      <h2 class="reviews__title">Суммарный рейтинг</h2>
+      <h2 class="reviews__title">Summary rating</h2>
       <div class="reviews__rating">
-        <span>{{ amountOfReviews }} отзыв(a/ов)</span>
+        <span>{{ amountOfReviews }} review(s)</span>
         <StarRating :rating="totalRating" />
       </div>
     </div>
