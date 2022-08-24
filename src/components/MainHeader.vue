@@ -1,7 +1,9 @@
 <template>
   <header class="header">
     <MainContainer>
-      <MainLogo />
+      <router-link :to="{ name: 'home' }">
+        <MainLogo />
+      </router-link>
     </MainContainer>
   </header>
 </template>

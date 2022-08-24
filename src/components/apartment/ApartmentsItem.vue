@@ -1,5 +1,5 @@
 <template>
-  <div class="apartments-item" @click="log(2, $event)">
+  <div class="apartments-item">
     <div class="apartments-item__inner">
       <img :src="imgSrc" alt="" class="apartments-item__photo" />
       <div class="apartments-item__content">
@@ -8,6 +8,11 @@
           <StarRating :rating="rating" />
         </div>
         <div class="apartments-item__price">UAH {{ price }}</div>
+        <router-link
+          :to="{ name: 'apartment', params: { id } }"
+          class="apartments-item__link"
+        >
+        </router-link>
       </div>
     </div>
   </div>
@@ -22,6 +27,10 @@ export default {
     StarRating,
   },
   props: {
+    id: {
+      type: String,
+      required: true,
+    },
     description: {
       type: String,
       default: "",
@@ -37,12 +46,6 @@ export default {
     imgSrc: {
       type: String,
       default: "",
-    },
-  },
-  methods: {
-    log(index, e) {
-      console.log("this", index);
-      console.log("e", e);
     },
   },
 };
