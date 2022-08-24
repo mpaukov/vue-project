@@ -15,6 +15,7 @@
 <script>
 export default {
   name: "CustomInput",
+  inject: ["form"],
   inheritAttrs: false,
   props: {
     modelValue: {
@@ -38,8 +39,8 @@ export default {
     };
   },
   watch: {
-    modelValue(value) {
-      this.validate(value);
+    modelValue() {
+      this.validate();
     },
   },
   methods: {
@@ -52,6 +53,17 @@ export default {
         return hasPassed;
       });
     },
+    reset() {
+      this.$emit("input", "");
+    },
+  },
+  mounted() {
+    if (!this.form) return;
+    this.form.registerInput(this);
+  },
+  beforeUnmount() {
+    if (!this.form) return;
+    this.form.unRegisterInput(this);
   },
 };
 </script>
