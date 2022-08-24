@@ -2,6 +2,16 @@
   "name": "vue-project",
   "version": "0.1.0",
   "private": true,
+   "homepage": "https://mpaukov.github.io/vue-project/",
+   "author": "Michael.Paukov@gmail.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mpaukov/vue-project/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mpaukov/vue-project.git"
+  },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
