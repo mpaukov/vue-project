@@ -56,8 +56,8 @@ export default {
     },
     buttonText() {
       return this.reviewsLimit === this.reviews.length
-        ? "Свернуть"
-        : "Читать еще...";
+        ? "Less"
+        : "Read more...";
     },
   },
   methods: {

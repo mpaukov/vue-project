@@ -1,8 +1,16 @@
 <template>
   <form class="form" @submit.prevent="handleSubmit">
     <CustomSelect :items="cities" v-model="city" class="form__select" />
-    <CustomInput v-model="price" />
-    <SubmitButton class="form__submit" type="submit">Подбор жилья</SubmitButton>
+    <CustomInput
+      v-model="price"
+      placeholder="Price, from"
+      type="number"
+      errorMessage="Please fulfill"
+      :rules="rules"
+    />
+    <SubmitButton class="form__submit" type="submit"
+      >Filtering by price and place</SubmitButton
+    >
   </form>
 </template>
 
@@ -10,6 +18,8 @@
 import CustomSelect from "../shared/CustomSelect.vue";
 import CustomInput from "../shared/CustomInput.vue";
 import SubmitButton from "../shared/MainButton.vue";
+import { isRequired, charLimit } from "../../utils/validationRules";
+
 export default {
   name: "ApartmentsFilterForm",
   components: { CustomSelect, CustomInput, SubmitButton },
@@ -20,14 +30,20 @@ export default {
     };
   },
   computed: {
+    rules() {
+      return [isRequired, charLimit(6)];
+    },
     cities() {
       return [
-        { value: "", label: "Город", selected: true },
-        "kiev",
+        { value: "", label: "City", selected: true },
+        "Kyiv",
         "Odesa",
-        "poltava",
-        "kharkov",
-        "dnepr",
+        "Poltava",
+        "Kharkiv",
+        "Dnipro",
+        "Lviv",
+        "Kherson",
+        "Mariupol",
       ];
     },
   },
@@ -42,6 +58,7 @@ export default {
 <style lang="scss" scoped>
 .form {
   display: flex;
+  margin-bottom: 40px;
   &__select {
     margin-right: 30px;
   }

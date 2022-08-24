@@ -1,23 +1,58 @@
 
 <template>
-  <input
-    :value="modelValue"
-    @input="$emit('update:modelValue', $event.target.value)"
-    class="custom-input"
-    placeholder="Цена, от"
-  />
+  <div class="wrapper-input">
+    <input
+      :value="modelValue"
+      v-bind="$attrs"
+      @input="$emit('update:modelValue', $event.target.value)"
+      class="custom-input"
+      :class="!isValid && 'custom-input--error'"
+    />
+    <span v-if="!isValid" class="custom-input__error">{{ error }}</span>
+  </div>
 </template>
 
 <script>
 export default {
   name: "CustomInput",
+  inheritAttrs: false,
   props: {
     modelValue: {
       type: String,
       default: "",
     },
+    errorMessage: {
+      type: String,
+      default: "",
+    },
+    rules: {
+      type: Array,
+      default: () => [],
+    },
   },
   emits: ["update:modelValue"],
+  data() {
+    return {
+      isValid: true,
+      error: "",
+    };
+  },
+  watch: {
+    modelValue(value) {
+      this.validate(value);
+    },
+  },
+  methods: {
+    validate(value) {
+      this.isValid = this.rules.every((rule) => {
+        const { hasPassed, message } = rule(value);
+        if (!hasPassed) {
+          this.error = message || this.errorMessage;
+        }
+        return hasPassed;
+      });
+    },
+  },
 };
 </script>
 
