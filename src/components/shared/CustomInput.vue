@@ -5,6 +5,7 @@
       :value="modelValue"
       v-bind="$attrs"
       @input="$emit('update:modelValue', $event.target.value)"
+      @blur="blurHandler"
       class="custom-input"
       :class="!isValid && 'custom-input--error'"
     />
@@ -39,11 +40,13 @@ export default {
   data() {
     return {
       isValid: true,
+      isFirstInput: true,
       error: "",
     };
   },
   watch: {
     modelValue() {
+      if (this.isFirstInput) return;
       this.validate();
     },
   },
@@ -60,8 +63,16 @@ export default {
 
       return this.isValid;
     },
+    blurHandler() {
+      if (this.isFirstInput) {
+        this.validate();
+      }
+      this.isFirstInput = false;
+    },
     reset() {
-      this.$emit("input", "");
+      this.isFirstInput = true;
+      this.isValid = true;
+      this.$emit("update:modelValue", "");
     },
   },
   mounted() {

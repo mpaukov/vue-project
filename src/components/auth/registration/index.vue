@@ -34,7 +34,7 @@
         :rules="confirmPassword"
         class="registration__input"
       />
-      <MainButton type="submit" class="registration__btn"
+      <MainButton type="submit" class="registration__btn" :loading="loading"
         >Registration</MainButton
       >
     </Form>
@@ -66,6 +66,7 @@ export default {
         password: "",
         confirmPassword: "",
       },
+      loading: false,
     };
   },
   computed: {
@@ -97,15 +98,24 @@ export default {
   },
   methods: {
     async handleSubmit() {
-      const isFormValid = this.$refs.form.validate();
+      const { form } = this.$refs;
+      const isFormValid = form.validate();
 
       if (isFormValid) {
+        const { name, email, password } = this.formData;
+        this.loading = true;
         try {
-          const { name, email, password } = this.formData;
           const { data } = await registerUser({ name, email, password });
           console.log("data", data);
+          form.reset();
         } catch (error) {
-          console.error(error);
+          this.$notify({
+            type: "error",
+            title: error.message,
+            text: error.response.data.message,
+          });
+        } finally {
+          this.loading = false;
         }
       }
     },

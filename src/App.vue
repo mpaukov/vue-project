@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <Notifications />
     <div class="content">
       <AppHeader />
       <router-view></router-view>
@@ -11,12 +12,14 @@
 <script>
 import AppFooter from "./components/MainFooter.vue";
 import AppHeader from "./components/MainHeader.vue";
+import Notifications from "./components/notifications/index.vue";
 
 export default {
   name: "App",
   components: {
     AppFooter,
     AppHeader,
+    Notifications,
   },
 };
 </script>

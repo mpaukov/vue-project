@@ -1,12 +1,21 @@
 <template>
-  <button v-bind:type="type" :class="{ btn: btn, 'btn--outlined': outlined }">
-    <slot></slot>
+  <button
+    v-bind:type="type"
+    :class="{ btn: btn, 'btn--outlined': outlined }"
+    :disabled="loading"
+  >
+    <CircleLoader v-if="loading" width="38" height="38" class="btn__loader" />
+    <span class="button__content" :class="contentStyle">
+      <slot></slot>
+    </span>
   </button>
 </template>
 
 <script>
+import CircleLoader from "../loaders/Circle.vue";
 export default {
   name: "MainButton",
+  components: { CircleLoader },
   props: {
     type: {
       type: String,
@@ -19,6 +28,17 @@ export default {
     btn: {
       type: Boolean,
       default: true,
+    },
+    loading: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  computed: {
+    contentStyle() {
+      return {
+        "btn__content--hidden": this.loading,
+      };
     },
   },
 };

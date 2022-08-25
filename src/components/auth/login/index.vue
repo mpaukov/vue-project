@@ -18,7 +18,9 @@
         :rules="passwordRules"
         class="login__input"
       />
-      <MainButton type="submit" class="login__btn">Log in</MainButton>
+      <MainButton type="submit" class="login__btn" :loading="loading"
+        >Log in</MainButton
+      >
     </Form>
   </AuthContainer>
 </template>
@@ -45,6 +47,7 @@ export default {
         email: "",
         password: "",
       },
+      loading: false,
     };
   },
   computed: {
@@ -67,11 +70,18 @@ export default {
       const isFormValid = this.$refs.form.validate();
 
       if (isFormValid) {
+        this.loading = true;
         try {
           const { data } = await loginUser(this.formData);
           console.log("data", data);
         } catch (error) {
-          console.error(error);
+          this.$notify({
+            type: "error",
+            title: error.message,
+            text: error.response.data.message,
+          });
+        } finally {
+          this.loading = false;
         }
       }
     },
