@@ -3,9 +3,19 @@ export const isRequired = (val) => ({
   message: "Please fulfill this field",
 });
 
-export const charLimit = (limit) => (val) => ({
+export const charMinLimit = (limit) => (val) => ({
+  hasPassed: val.length >= limit,
+  message: `Min ${limit} digits`,
+});
+
+export const charMaxLimit = (limit) => (val) => ({
   hasPassed: val.length <= limit,
   message: `Max ${limit} digits`,
+});
+
+export const charLimit = (min, max) => (val) => ({
+  hasPassed: charMinLimit(min)(val) && charMaxLimit(max)(val),
+  message: `Min ${min} and Max ${max} digits`,
 });
 
 export const emailValidation = (val) => ({

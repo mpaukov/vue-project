@@ -3,6 +3,7 @@ import HomePage from "./pages/HomePage.vue";
 import ApartmentPage from "./pages/ApartmentPage.vue";
 import ErrorPage from "./pages/ErrorPage.vue";
 import LoginPage from "./pages/Login.vue";
+import RegistrationPage from "./pages/Registration.vue";
 
 const routes = [
   {
@@ -19,6 +20,11 @@ const routes = [
     path: "/login",
     name: "login",
     component: LoginPage,
+  },
+  {
+    path: "/registration",
+    name: "registration",
+    component: RegistrationPage,
   },
   {
     path: "/:pathMatch(.*)*",
