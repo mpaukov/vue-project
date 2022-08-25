@@ -1,5 +1,5 @@
 <template>
-  <DefaultForm class="form" @submit.prevent="handleSubmit">
+  <form class="form" @submit.prevent="handleSubmit">
     <CustomSelect :items="cities" v-model="city" class="form__select" />
     <CustomInput
       v-model="price"
@@ -11,7 +11,7 @@
     <SubmitButton class="form__submit" type="submit"
       >Filtering by price and place</SubmitButton
     >
-  </DefaultForm>
+  </form>
 </template>
 
 <script>
@@ -19,11 +19,10 @@ import CustomSelect from "../shared/CustomSelect.vue";
 import CustomInput from "../shared/CustomInput.vue";
 import SubmitButton from "../shared/MainButton.vue";
 import { isRequired, charLimit } from "../../utils/validationRules";
-import DefaultForm from "../shared/form/index.vue";
 
 export default {
   name: "ApartmentsFilterForm",
-  components: { CustomSelect, CustomInput, SubmitButton, DefaultForm },
+  components: { CustomSelect, CustomInput, SubmitButton },
   data() {
     return {
       price: "",

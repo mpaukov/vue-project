@@ -1,6 +1,6 @@
 
 <template>
-  <div class="wrapper-input">
+  <div class="wrapper-input" :class="$attrs.class">
     <input
       :value="modelValue"
       v-bind="$attrs"
@@ -15,7 +15,11 @@
 <script>
 export default {
   name: "CustomInput",
-  inject: ["form"],
+  inject: {
+    form: {
+      default: null,
+    },
+  },
   inheritAttrs: false,
   props: {
     modelValue: {
@@ -44,14 +48,17 @@ export default {
     },
   },
   methods: {
-    validate(value) {
+    validate() {
       this.isValid = this.rules.every((rule) => {
-        const { hasPassed, message } = rule(value);
+        const { hasPassed, message } = rule(this.modelValue);
         if (!hasPassed) {
           this.error = message || this.errorMessage;
         }
+
         return hasPassed;
       });
+
+      return this.isValid;
     },
     reset() {
       this.$emit("input", "");

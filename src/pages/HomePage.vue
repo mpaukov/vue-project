@@ -1,33 +1,35 @@
 <template>
   <main class="home-page">
-    <MainContainer>
-      <ApartmentsFilterForm @changeFilter="filter" />
-    </MainContainer>
-    <MainContainer>
-      <p v-if="!filteredApartments.length">Ничего не найдено</p>
-      <ApartmentsList v-else :items="filteredApartments">
-        <template v-slot:apartment="{ apartment }">
-          <ApartmentsItem
-            :key="apartment.id"
-            :id="apartment.id"
-            :description="apartment.descr"
-            :rating="apartment.rating"
-            :imgSrc="apartment.imgUrl"
-            :price="apartment.price"
-          />
-        </template>
-      </ApartmentsList>
-    </MainContainer>
+    <SectionWithHeaderSpacer>
+      <MainContainer>
+        <ApartmentsFilterForm @changeFilter="filter" />
+      </MainContainer>
+      <MainContainer>
+        <p v-if="!filteredApartments.length">Nothing found</p>
+        <ApartmentsList v-else :items="filteredApartments">
+          <template v-slot:apartment="{ apartment }">
+            <ApartmentsItem
+              :key="apartment.id"
+              :id="apartment.id"
+              :description="apartment.descr"
+              :rating="apartment.rating"
+              :imgSrc="apartment.imgUrl"
+              :price="apartment.price"
+            />
+          </template>
+        </ApartmentsList>
+      </MainContainer>
+    </SectionWithHeaderSpacer>
   </main>
 </template>
 
 <script>
 import ApartmentsList from "../components/apartment/ApartmentsList.vue";
 import ApartmentsItem from "../components/apartment/ApartmentsItem.vue";
-
 import ApartmentsFilterForm from "../components/apartment/ApartmentsFilterForm.vue";
 import MainContainer from "../components/shared/MainContainer.vue";
 import { getApartmentsList } from "../services/apartment.service";
+import SectionWithHeaderSpacer from "@/components/shared/SectionWithHeaderSpacer.vue";
 
 export default {
   name: "HomePage",
@@ -36,6 +38,7 @@ export default {
     ApartmentsItem,
     ApartmentsFilterForm,
     MainContainer,
+    SectionWithHeaderSpacer,
   },
   data() {
     return {
