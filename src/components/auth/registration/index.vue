@@ -42,6 +42,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import Form from "../../shared/form/index.vue";
 import CustomInput from "../../shared/CustomInput.vue";
 import MainButton from "../../shared/MainButton.vue";
@@ -53,7 +54,6 @@ import {
   isRequired,
   charMinLimit,
 } from "../../../utils/validationRules";
-import { registerUser } from "../../../services/auth.service";
 
 export default {
   name: "RegistrationForm",
@@ -97,6 +97,7 @@ export default {
     },
   },
   methods: {
+    ...mapActions("auth", ["registerUser"]),
     async handleSubmit() {
       const { form } = this.$refs;
       const isFormValid = form.validate();
@@ -105,9 +106,13 @@ export default {
         const { name, email, password } = this.formData;
         this.loading = true;
         try {
-          const { data } = await registerUser({ name, email, password });
-          console.log("data", data);
+          await this.registerUser({
+            name,
+            email,
+            password,
+          });
           form.reset();
+          this.$router.push({ name: "home" });
         } catch (error) {
           this.$notify({
             type: "error",

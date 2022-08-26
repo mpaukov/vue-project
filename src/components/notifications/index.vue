@@ -7,7 +7,7 @@ export default { name: "NotificationsConfig" };
 </script>
 
 <style lang="scss" scoped>
-::v-deep .vue-notification {
+:deep .vue-notification {
   margin: 0 5px 5px;
   padding: 10px;
   font-size: 12px;

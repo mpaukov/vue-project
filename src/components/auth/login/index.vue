@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import Form from "../../shared/form/index.vue";
 import CustomInput from "../../shared/CustomInput.vue";
 import MainButton from "../../shared/MainButton.vue";
@@ -36,7 +37,6 @@ import {
   passwordValidation,
   isRequired,
 } from "../../../utils/validationRules";
-import { loginUser } from "../../../services/auth.service";
 
 export default {
   name: "LoginForm",
@@ -66,14 +66,17 @@ export default {
     },
   },
   methods: {
+    ...mapActions("auth", ["loginUser"]),
     async handleSubmit() {
-      const isFormValid = this.$refs.form.validate();
+      const { form } = this.$refs;
+      const isFormValid = form.validate();
 
       if (isFormValid) {
         this.loading = true;
         try {
-          const { data } = await loginUser(this.formData);
-          console.log("data", data);
+          await this.loginUser(this.formData);
+          form.reset();
+          this.$router.push({ name: "home" });
         } catch (error) {
           this.$notify({
             type: "error",
