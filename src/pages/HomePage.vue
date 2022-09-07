@@ -5,7 +5,8 @@
         <ApartmentsFilterForm @changeFilter="filter" />
       </MainContainer>
       <MainContainer>
-        <p v-if="!filteredApartments.length">Nothing found</p>
+        <CircleLoader v-if="loading" width="200" height="200" class="loader" />
+        <p v-else-if="!filteredApartments.length">Nothing found</p>
         <ApartmentsList v-else :items="filteredApartments">
           <template v-slot:apartment="{ apartment }">
             <ApartmentsItem
@@ -30,6 +31,7 @@ import ApartmentsFilterForm from "../components/apartment/ApartmentsFilterForm.v
 import MainContainer from "../components/shared/MainContainer.vue";
 import { getApartmentsList } from "../services/apartment.service";
 import SectionWithHeaderSpacer from "@/components/shared/SectionWithHeaderSpacer.vue";
+import CircleLoader from "@/components/loaders/Circle.vue";
 
 export default {
   name: "HomePage",
@@ -39,6 +41,7 @@ export default {
     ApartmentsFilterForm,
     MainContainer,
     SectionWithHeaderSpacer,
+    CircleLoader,
   },
   data() {
     return {
@@ -47,6 +50,7 @@ export default {
         city: "",
         price: 0,
       },
+      loading: false,
     };
   },
   computed: {
@@ -56,10 +60,13 @@ export default {
   },
   async created() {
     try {
+      this.loading = true;
       const { data } = await getApartmentsList();
       this.apartments = data;
     } catch (error) {
       console.log("error", error);
+    } finally {
+      this.loading = false;
     }
   },
   methods: {
@@ -84,6 +91,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.loader {
+  display: flex;
+  justify-content: center;
+}
 </style>
 
 
